@@ -1,0 +1,55 @@
+---
+description: CMS content — blog, news, contact, and headless content patterns
+globs: "**/blog/**,**/news/**,**/contact/**,**/lib/cms*,**/collections/**,**/payload.config.ts,**/content/**"
+alwaysApply: false
+---
+
+# CMS & Content Guidelines
+
+Content is **CMS-driven**. Editors update copy and posts without code deploys (ISR/revalidate on publish).
+
+## Content Types
+
+| Type | Route | Notes |
+|------|-------|-------|
+| **Blog / weblog** | `/blog`, `/blog/[slug]` | Long-form articles; categories/tags optional |
+| **News** | `/news`, `/news/[slug]` | Shorter updates, press, announcements |
+| **Pages** | `/`, `/services`, etc. | Hero, services, about — structured CMS blocks or page builder |
+| **Contact** | `/contact` | Static copy from CMS; form fields validated in API route |
+
+## Data Fetching
+
+- Fetch in Server Components; use `generateStaticParams` + ISR/`revalidate` for listings and posts
+- Single `lib/cms.ts` client — typed queries, shared image URL helper
+- Map CMS fields to consistent frontmatter shape (title, slug, date, excerpt, coverImage, body)
+
+```typescript
+// ✅ Typed fetch + revalidate
+export const revalidate = 3600;
+
+export async function getBlogPosts() {
+  return cms.query<BlogPost[]>(`...`);
+}
+```
+
+## Blog & News UI
+
+- Listing: shadcn `Card` grid or list; pagination or "load more" if needed
+- Post page: typography via `prose` (tailwind typography plugin); share metadata for OG
+- Related posts optional — keep query simple
+
+## Contact Form
+
+- shadcn `Form` + react-hook-form + zod schema
+- POST `/api/contact` — validate, rate-limit, send email (Resend), return generic success/error (no stack traces)
+- Required: name, email, message; optional: company, subject
+
+## Images & Rich Text
+
+- Portable Text / Lexical / CMS rich text — render with a single `RichText` component
+- Always `alt` on images; responsive sizes from CMS asset pipeline
+
+## Do Not
+
+- Hardcode blog/news body copy in TSX (except dev placeholders)
+- Add dashboards, auth, or product features under content routes

@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 4%;
+    --foreground: 0 0% 98%;
+    --card: 222 40% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 222 40% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 84% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 30% 12%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 222 30% 12%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 199 55% 48%;
+    --accent-foreground: 222 47% 4%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 25% 14%;
+    --input: 222 25% 14%;
+    --ring: 0 84% 60%;
+    --radius: 0.625rem;
+    --radius-lg: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  [dir="rtl"] .prose {
+    text-align: start;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-foreground;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+}
+
+@layer utilities {
+  .interactive {
+    @apply cursor-pointer transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  .section-padding {
+    @apply py-16 sm:py-20 lg:py-28;
+  }
+
+  .surface-muted {
+    @apply border-y border-border/60 bg-muted/20;
+  }
+
+  .surface-card {
+    @apply bg-card/15;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 70%);
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-br from-foreground via-foreground to-muted-foreground bg-clip-text text-transparent;
+  }
+
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent;
+  }
+
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  .heading-display {
+    @apply font-display font-bold tracking-tighter;
+  }
+
+  .stat-value {
+    @apply font-mono text-xl font-semibold sm:text-2xl;
+  }
+}

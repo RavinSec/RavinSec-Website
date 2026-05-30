@@ -1,0 +1,74 @@
+---
+description: RavinSec marketing site — stack, CMS content, shadcn UI, and code standards
+alwaysApply: true
+---
+
+# RavinSec — Marketing Site Standards
+
+**Representation site only** — not a product suite. Showcase RavinSec services with a clean, modern, CMS-driven experience.
+
+## Scope
+
+| In scope | Out of scope |
+|----------|----------------|
+| Marketing pages, services overview | Dashboards, SaaS billing, real-time feeds |
+| **Blog / weblog**, **news**, **contact** | Auth portals, RBAC apps, NOC/SOC tools |
+| CMS-managed content | Heavy 3D, attack simulators, live threat maps |
+
+## Tech Stack
+
+| Layer | Choices |
+|-------|---------|
+| Framework | Next.js 14+ App Router, TypeScript |
+| UI | **shadcn/ui** + Tailwind CSS (dark default) |
+| Motion | Framer Motion — subtle page/section transitions only |
+| CMS | **Payload CMS** (open source, self-hosted) — **content lives in CMS, not hardcoded** |
+| Forms | react-hook-form + zod; contact via Route Handler + Resend (or similar) |
+| Images | `next/image`; CMS image URLs via loader when needed |
+| SEO | Metadata API, sitemap, Open Graph |
+| Hosting | Vercel |
+
+Prefer **shadcn components** (`Button`, `Card`, `NavigationMenu`, `Form`, etc.) over custom primitives. Add via CLI; extend in `components/ui/`.
+
+## Agentic Workflow
+
+**Before:** Read existing patterns → short plan for non-trivial work → wait for approval when scope is unclear.
+
+**During:** Keep diffs small; match project conventions; validate contact/form input server-side.
+
+**After:** Check responsive layout, accessibility, and Lighthouse basics.
+
+## Security (lightweight)
+
+- Validate/sanitize contact form input (zod + server handler)
+- Rate-limit contact API; optional Turnstile on contact form
+- No secrets in client bundles; env vars for CMS tokens and email API
+
+## Code Style
+
+- Functional components; strict TypeScript
+- `components/ui/` — shadcn; `components/sections/` — page blocks; `components/layout/` — header/footer
+- Mobile-first; dark mode; professional security aesthetic (clean, not flashy)
+
+## File Layout
+
+```
+src/
+├── app/
+│   ├── (site)/          # pages: home, services, about
+│   ├── blog/            # weblog listing + [slug]
+│   ├── news/            # news listing + [slug]
+│   ├── contact/
+│   └── api/contact/
+├── components/ui|sections|layout/
+├── lib/cms.ts|utils.ts
+└── content/             # only if using local MDX fallback
+```
+
+## Context Rules
+
+Use `@cms` when editing content models, fetchers, or blog/news pages.
+
+## Success Criteria
+
+Clear messaging, fast pages, editable content in CMS, polished shadcn UI, working contact flow.
