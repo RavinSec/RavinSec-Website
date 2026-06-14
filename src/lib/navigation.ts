@@ -16,6 +16,23 @@ export const siteContact = {
   phone: "09120241686",
 };
 
+export function isNavLinkActive(pathname: string, hash: string, href?: string): boolean {
+  if (!href) return false;
+
+  const hashIndex = href.indexOf("#");
+  if (hashIndex !== -1) {
+    const targetPath = href.slice(0, hashIndex) || "/";
+    const targetHash = href.slice(hashIndex);
+    return pathname === targetPath && hash === targetHash;
+  }
+
+  if (href === "/") {
+    return pathname === "/" && hash === "";
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export const mainNav: NavGroup[] = [
   { label: "خانه", href: "/" },
   {
@@ -32,7 +49,6 @@ export const mainNav: NavGroup[] = [
   },
   { label: "نظرات مشتریان", href: "/#testimonies" },
   { label: "درباره ما", href: "/#about" },
-  { label: "تماس با ما", href: "/contact" },
 ];
 
 export const footerNav = {

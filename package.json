@@ -10,7 +10,8 @@
     "lint": "next lint",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
-    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload"
+    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "docker:dev": "docker compose up postgres -d && docker compose --profile dev watch app-dev"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

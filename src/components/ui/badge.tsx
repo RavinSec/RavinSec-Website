@@ -8,10 +8,10 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-transparent bg-primary text-primary-foreground shadow",
+        default: "border-transparent bg-primary text-primary-foreground shadow-sm",
         secondary: "border-transparent bg-secondary text-secondary-foreground",
-        outline: "text-foreground",
-        glow: "border-primary/30 bg-primary/10 text-primary shadow-[0_0_20px_-6px_hsl(var(--primary)/0.6)]",
+        outline: "border-border text-foreground",
+        glow: "eyebrow",
       },
     },
     defaultVariants: {

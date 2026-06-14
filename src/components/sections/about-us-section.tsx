@@ -34,9 +34,9 @@ const values = [
 ];
 
 const metrics = [
-  { label: "سال تجربه ترکیبی", value: "۱۰+" },
-  { label: "صنعت تحت پوشش", value: "۸+" },
-  { label: "گواهینامه‌ها", value: "OWASP · ISO" },
+  { label: "سال تجربه ترکیبی", value: "۱۰+", compact: false },
+  { label: "صنعت تحت پوشش", value: "۸+", compact: false },
+  { label: "گواهینامه‌ها", value: "OWASP · ISO", compact: true },
 ];
 
 export function AboutUsSection() {
@@ -59,7 +59,7 @@ export function AboutUsSection() {
             <div className="mt-8 space-y-4">
               {values.map((value) => (
                 <GlowCard key={value.title} variant="border" glow={false} className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <value.icon className="h-5 w-5" />
                   </div>
                   <div>
@@ -78,14 +78,22 @@ export function AboutUsSection() {
                 بیش از یک دهه تجربه ترکیبی در حفاظت از زیرساخت‌های حیاتی و شرکت‌های فناوری
                 پررشد.
               </p>
-              <dl className="mt-8 grid gap-4 sm:grid-cols-3">
+              <dl className="mt-8 grid grid-cols-3 gap-3">
                 {metrics.map((metric) => (
                   <div
                     key={metric.label}
-                    className="rounded-xl border border-border/60 bg-card/30 px-4 py-3 text-center"
+                    className="flex min-h-[5.5rem] flex-col items-center justify-center rounded-xl border border-border bg-white px-2 py-4 text-center shadow-soft sm:min-h-[6rem] sm:px-3"
                   >
-                    <dt className="text-xs text-muted-foreground">{metric.label}</dt>
-                    <dd className="stat-value mt-1 text-primary">
+                    <dt className="text-[0.65rem] leading-snug text-muted-foreground sm:text-xs">
+                      {metric.label}
+                    </dt>
+                    <dd
+                      className={
+                        metric.compact
+                          ? "mt-2 font-mono text-[0.65rem] font-semibold leading-none text-primary sm:text-xs"
+                          : "stat-value mt-2 leading-none text-primary"
+                      }
+                    >
                       {metric.value}
                     </dd>
                   </div>

@@ -6,7 +6,8 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { mainNav } from "@/lib/navigation";
+import { isNavLinkActive, mainNav } from "@/lib/navigation";
+import { useHash } from "@/lib/use-hash";
 import { cn } from "@/lib/utils";
 
 type MobileNavProps = {
@@ -15,6 +16,7 @@ type MobileNavProps = {
 
 export function MobileNav({ onNavigate }: MobileNavProps) {
   const pathname = usePathname();
+  const hash = useHash();
   const [expanded, setExpanded] = useState<string | null>(null);
 
   const toggle = (label: string) => {
@@ -22,7 +24,7 @@ export function MobileNav({ onNavigate }: MobileNavProps) {
   };
 
   return (
-    <nav className="flex flex-col gap-1 p-4" aria-label="منوی موبایل">
+    <nav className="flex flex-col gap-1 p-4" dir="rtl" aria-label="منوی موبایل">
       {mainNav.map((group) => {
         const links = group.items ?? group.columns?.flatMap((c) => c.items) ?? [];
         const hasChildren = links.length > 0;
@@ -35,7 +37,7 @@ export function MobileNav({ onNavigate }: MobileNavProps) {
               onClick={onNavigate}
               className={cn(
                 "interactive rounded-lg px-4 py-3 text-sm font-medium focus-visible:rounded-lg",
-                pathname === group.href
+                isNavLinkActive(pathname, hash, group.href)
                   ? "bg-primary/10 text-primary"
                   : "text-muted-foreground hover:bg-secondary",
               )}
@@ -106,7 +108,7 @@ export function MobileNav({ onNavigate }: MobileNavProps) {
       })}
       <Button asChild className="mt-2 w-full">
         <Link href="/contact" onClick={onNavigate}>
-          تماس با ما
+          تماس
         </Link>
       </Button>
     </nav>

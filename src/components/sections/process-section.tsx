@@ -50,7 +50,7 @@ export function ProcessSection() {
         <div className="relative mt-16">
           {/* Connecting line — desktop horizontal (RTL: right to left) */}
           <div
-            className="absolute end-[12.5%] top-5 hidden h-px w-[75%] bg-gradient-to-l from-transparent via-border to-transparent md:block"
+            className="absolute end-[12.5%] top-5 hidden h-px w-[75%] bg-gradient-to-l from-transparent via-primary/20 to-transparent md:block"
             aria-hidden
           />
 
@@ -64,7 +64,7 @@ export function ProcessSection() {
                 <div className="flex md:flex-col md:items-center md:text-center">
                   <div
                     className={cn(
-                      "relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-background font-mono text-sm font-semibold text-primary shadow-[0_0_20px_-4px_hsl(var(--primary)/0.4)]",
+                      "relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-primary/20 bg-white font-mono text-sm font-semibold text-primary shadow-soft",
                       "md:mx-auto",
                     )}
                   >
@@ -72,7 +72,7 @@ export function ProcessSection() {
                   </div>
                   {index < steps.length - 1 ? (
                     <div
-                      className="ms-4 h-full w-px self-stretch bg-border/60 md:hidden"
+                      className="ms-4 h-full w-px self-stretch bg-primary/15 md:hidden"
                       aria-hidden
                     />
                   ) : null}

@@ -70,7 +70,7 @@ function PostCover({
   return (
     <div
       className={cn(
-        "relative w-full overflow-hidden border-border/60 bg-gradient-to-br from-primary/10 via-card/40 to-accent/10",
+        "relative w-full overflow-hidden border-border bg-gradient-to-br from-primary/8 via-white to-primary/5",
         featured
           ? "aspect-[21/9] border-b lg:aspect-auto lg:min-h-[220px] lg:w-1/2 lg:border-b-0 lg:border-s"
           : "aspect-[16/9] border-b",
@@ -89,7 +89,7 @@ export function ContentPostCard({ post, basePath, featured = false }: ContentPos
     return (
       <Link
         href={`${basePath}/${post.slug}`}
-        className="interactive group block rounded-xl focus-visible:rounded-xl"
+        className="interactive group block rounded-2xl focus-visible:rounded-2xl"
       >
         <GlowCard
           variant="elevated"
@@ -134,7 +134,7 @@ export function ContentPostCard({ post, basePath, featured = false }: ContentPos
   return (
     <Link
       href={`${basePath}/${post.slug}`}
-      className="interactive group block rounded-xl focus-visible:rounded-xl"
+      className="interactive group block rounded-2xl focus-visible:rounded-2xl"
     >
       <GlowCard variant="border" glow={false} className="h-full overflow-hidden p-0">
         <PostCover post={post} coverUrl={coverUrl} />

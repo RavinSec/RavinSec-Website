@@ -89,10 +89,10 @@ export default function ServicesPage() {
                   className="scroll-mt-28"
                 >
                   <div className="flex items-start justify-between">
-                    <span className="rounded-md border border-primary/30 bg-primary/10 px-2 py-0.5 font-mono text-xs font-semibold text-primary">
-                      {service.abbr}
-                    </span>
-                    <Icon className="h-5 w-5 text-muted-foreground" aria-hidden />
+                    <span className="eyebrow">{service.abbr}</span>
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                      <Icon className="h-4 w-4" aria-hidden />
+                    </div>
                   </div>
                   <h2 className="mt-4 font-display text-xl font-semibold">{service.title}</h2>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -115,7 +115,7 @@ export default function ServicesPage() {
               const Icon = service.icon;
               return (
                 <GlowCard key={service.title} variant="border" glow={false}>
-                  <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary">
+                  <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <Icon className="h-5 w-5" aria-hidden />
                   </div>
                   <h2 className="font-display text-xl font-semibold">{service.title}</h2>
@@ -124,10 +124,7 @@ export default function ServicesPage() {
                   </p>
                   <ul className="mt-4 flex flex-wrap gap-2">
                     {service.tags.map((tag) => (
-                      <li
-                        key={tag}
-                        className="rounded-md border border-border/80 bg-secondary/50 px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-wide text-muted-foreground"
-                      >
+                      <li key={tag} className="eyebrow">
                         {tag}
                       </li>
                     ))}

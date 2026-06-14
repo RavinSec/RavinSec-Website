@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fa" dir="rtl" className="dark">
+    <html lang="fa" dir="rtl">
       <body className={`${vazirmatn.variable} ${geistMono.variable} min-h-screen font-sans`}>
         <SiteHeader />
         <main>{children}</main>

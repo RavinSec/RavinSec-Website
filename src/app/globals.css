@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 222 47% 4%;
-    --foreground: 0 0% 98%;
-    --card: 222 40% 6%;
-    --card-foreground: 0 0% 98%;
-    --popover: 222 40% 6%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 84% 60%;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 217 91% 45%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 222 30% 12%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 222 30% 12%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 199 55% 48%;
-    --accent-foreground: 222 47% 4%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 222 25% 14%;
-    --input: 222 25% 14%;
-    --ring: 0 84% 60%;
+    --secondary: 214 32% 94%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 20% 40%;
+    --accent: 214 95% 93%;
+    --accent-foreground: 217 91% 35%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 45%;
     --radius: 0.625rem;
     --radius-lg: 1rem;
   }
@@ -42,7 +42,7 @@
   }
 
   ::selection {
-    @apply bg-primary/30 text-foreground;
+    @apply bg-primary/20 text-foreground;
   }
 }
 
@@ -62,19 +62,53 @@
   }
 
   .surface-muted {
-    @apply border-y border-border/60 bg-muted/20;
+    @apply border-y border-border bg-muted/50;
   }
 
   .surface-card {
-    @apply bg-card/15;
+    @apply bg-card;
   }
 
   .grid-bg {
     background-image:
-      linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 70%);
+      linear-gradient(to right, hsl(var(--primary) / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary) / 0.04) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, black 15%, transparent 65%);
+    opacity: 0.7;
+  }
+
+  .bg-mesh {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 20% -10%, hsl(var(--primary) / 0.12), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 85% 10%, hsl(214 95% 45% / 0.08), transparent 50%),
+      radial-gradient(ellipse 50% 30% at 50% 100%, hsl(var(--primary) / 0.05), transparent 60%);
+  }
+
+  .surface-elevated {
+    @apply rounded-2xl border border-border bg-card shadow-soft;
+  }
+
+  .shadow-soft {
+    box-shadow:
+      0 1px 2px hsl(var(--primary) / 0.04),
+      0 4px 12px hsl(var(--primary) / 0.06);
+  }
+
+  .shadow-elevated {
+    box-shadow:
+      0 2px 4px hsl(var(--primary) / 0.04),
+      0 8px 24px hsl(var(--primary) / 0.08);
+  }
+
+  .shadow-glow-primary {
+    box-shadow:
+      0 2px 8px hsl(var(--primary) / 0.2),
+      0 0 0 1px hsl(var(--primary) / 0.08);
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center rounded-md border border-primary/20 bg-primary/5 px-2.5 py-0.5 font-mono text-[0.65rem] font-medium uppercase tracking-wider text-primary;
   }
 
   .text-gradient {
@@ -82,11 +116,11 @@
   }
 
   .text-gradient-primary {
-    @apply bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary via-[hsl(217,91%,55%)] to-[hsl(214,95%,45%)] bg-clip-text text-transparent;
   }
 
   .noise {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   }
 
   .heading-display {
@@ -95,5 +129,18 @@
 
   .stat-value {
     @apply font-mono text-xl font-semibold sm:text-2xl;
+  }
+
+  .prose-content {
+    @apply prose prose-slate max-w-none;
+    @apply prose-headings:font-display prose-headings:tracking-tight prose-headings:text-foreground;
+    @apply prose-p:leading-relaxed prose-p:text-muted-foreground;
+    @apply prose-a:text-primary prose-a:no-underline hover:prose-a:underline;
+    @apply prose-strong:text-foreground;
+    @apply prose-blockquote:border-primary/30 prose-blockquote:text-muted-foreground prose-blockquote:not-italic;
+    @apply prose-code:rounded prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:text-sm prose-code:font-normal prose-code:before:content-none prose-code:after:content-none;
+    @apply prose-pre:bg-muted prose-pre:border prose-pre:border-border;
+    @apply prose-li:text-muted-foreground;
+    @apply prose-hr:border-border;
   }
 }

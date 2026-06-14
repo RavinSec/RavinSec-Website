@@ -32,6 +32,29 @@ ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 
 RUN pnpm build
 
+FROM base AS dev
+
+WORKDIR /app
+
+COPY package.json pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+  pnpm install --frozen-lockfile
+
+COPY . .
+
+RUN mkdir -p public media
+
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_OPTIONS=--no-deprecation
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+ENV WATCHPACK_POLLING=true
+
+EXPOSE 3000
+
+CMD ["pnpm", "dev"]
+
 FROM base AS runner
 
 WORKDIR /app

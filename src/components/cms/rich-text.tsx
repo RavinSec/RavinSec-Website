@@ -3,13 +3,14 @@ import { RichText as RichTextConverter } from "@payloadcms/richtext-lexical/reac
 
 type RichTextProps = {
   data: DefaultTypedEditorState | null | undefined;
+  className?: string;
 };
 
-export function RichText({ data }: RichTextProps) {
+export function RichText({ data, className }: RichTextProps) {
   if (!data) return null;
 
   return (
-    <div className="prose prose-invert max-w-none">
+    <div className={className ?? "prose-content"}>
       <RichTextConverter data={data} />
     </div>
   );

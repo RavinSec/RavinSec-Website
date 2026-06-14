@@ -52,7 +52,7 @@ export function ServicesPreviewSection() {
           title="امنیت ساخته‌شده برای اپراتورها"
           description="هر پروژه با دامنه روشن، شواهد قابل تکرار و راهنمای رفعی که تیم‌های شما بتوانند اجرا کنند، تحویل می‌شود."
         />
-        <Button asChild variant="outline" className="shrink-0 border-border/80 bg-card/30">
+        <Button asChild variant="outline" className="shrink-0">
           <Link href="/services" className="gap-2">
             همه خدمات
             <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" />
@@ -66,7 +66,7 @@ export function ServicesPreviewSection() {
           return (
             <GlowCard key={service.title} className={service.span}>
               <div className="flex h-full flex-col">
-                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   <Icon className="h-5 w-5" aria-hidden />
                 </div>
                 <h3 className="font-display text-xl font-semibold">{service.title}</h3>

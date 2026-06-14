@@ -9,12 +9,25 @@ import type { Testimonial } from "@/lib/cms";
 import { fadeUpInViewProps, useReducedMotionPreferred } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-function IndustryTag({ label }: { label: string }) {
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) return parts[0][0] + parts[1][0];
+  return name.slice(0, 2);
+}
+
+function AuthorAvatar({ name }: { name: string }) {
   return (
-    <span className="inline-flex rounded-md border border-border/80 bg-secondary/50 px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-wide text-muted-foreground">
-      {label}
-    </span>
+    <div
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 font-mono text-sm font-semibold text-primary"
+      aria-hidden
+    >
+      {getInitials(name)}
+    </div>
   );
+}
+
+function IndustryTag({ label }: { label: string }) {
+  return <span className="eyebrow">{label}</span>;
 }
 
 type TestimoniesSectionProps = {
@@ -50,15 +63,18 @@ export function TestimoniesSection({ testimonies }: TestimoniesSectionProps) {
           >
             <GlowCard variant="elevated" glow={false} className="flex h-full flex-col justify-between p-8">
               <div className="flex items-start justify-between gap-4">
-                <Quote className="h-8 w-8 shrink-0 text-primary/40" aria-hidden />
+                <Quote className="h-10 w-10 shrink-0 text-primary/30" aria-hidden />
                 {featured.industry ? <IndustryTag label={featured.industry} /> : null}
               </div>
               <blockquote className="my-6 text-xl leading-relaxed text-foreground">
                 «{featured.quote}»
               </blockquote>
-              <div>
-                <div className="font-semibold text-foreground">{featured.author}</div>
-                <div className="text-sm text-primary">{featured.role}</div>
+              <div className="flex items-center gap-3">
+                <AuthorAvatar name={featured.author} />
+                <div>
+                  <div className="font-semibold text-foreground">{featured.author}</div>
+                  <div className="text-sm text-primary">{featured.role}</div>
+                </div>
               </div>
             </GlowCard>
           </motion.div>
@@ -72,17 +88,18 @@ export function TestimoniesSection({ testimonies }: TestimoniesSectionProps) {
                 <GlowCard
                   variant="border"
                   glow={false}
-                  className={cn("flex h-full flex-col justify-between p-6 transition-colors duration-200")}
+                  className={cn("flex h-full flex-col justify-between p-6")}
                 >
-                  {testimony.industry ? (
-                    <IndustryTag label={testimony.industry} />
-                  ) : null}
+                  {testimony.industry ? <IndustryTag label={testimony.industry} /> : null}
                   <blockquote className="mb-4 mt-3 text-sm leading-relaxed text-muted-foreground">
                     «{testimony.quote}»
                   </blockquote>
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">{testimony.author}</div>
-                    <div className="text-xs text-primary">{testimony.role}</div>
+                  <div className="flex items-center gap-3">
+                    <AuthorAvatar name={testimony.author} />
+                    <div>
+                      <div className="text-sm font-semibold text-foreground">{testimony.author}</div>
+                      <div className="text-xs text-primary">{testimony.role}</div>
+                    </div>
                   </div>
                 </GlowCard>
               </motion.div>

@@ -51,7 +51,9 @@ export default function AboutPage() {
             const Icon = item.icon;
             return (
               <GlowCard key={item.title} variant="border" glow={false}>
-                <Icon className="h-5 w-5 text-accent" aria-hidden />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Icon className="h-5 w-5" aria-hidden />
+                </div>
                 <h2 className="mt-4 font-display text-lg font-semibold">{item.title}</h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {item.description}

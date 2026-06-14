@@ -1,15 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 import { SectionHeader, TitleAccent } from "@/components/sections/section-header";
 import { GlowCard } from "@/components/ui/glow-card";
 import { managedServices } from "@/lib/managed-services";
 import { cn } from "@/lib/utils";
-
-const serviceStyles: Record<string, { ring: string; icon: string }> = {
-  mss: { ring: "group-hover:border-accent/40", icon: "group-hover:text-accent" },
-  mdr: { ring: "group-hover:border-primary/40", icon: "group-hover:text-primary" },
-  amss: { ring: "group-hover:border-amber-500/40", icon: "group-hover:text-amber-400" },
-};
 
 function ServiceCard({
   service,
@@ -19,36 +16,27 @@ function ServiceCard({
   featured?: boolean;
 }) {
   const Icon = service.icon;
-  const styles = serviceStyles[service.id];
 
   return (
     <Link
       href={`/services#${service.id}`}
       className={cn(
-        "interactive group block rounded-xl focus-visible:rounded-xl",
+        "interactive group block rounded-2xl focus-visible:rounded-2xl",
         featured && "lg:col-span-2",
       )}
     >
-      <GlowCard
-        variant={featured ? "elevated" : "border"}
-        glow={false}
-        className={cn("h-full transition-colors duration-200", styles.ring)}
-      >
+      <GlowCard variant={featured ? "elevated" : "border"} glow={false} className="h-full">
         <div className={cn("flex gap-4", featured && "sm:items-center")}>
           <div
             className={cn(
-              "flex shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary",
+              "flex shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary",
               featured ? "h-14 w-14" : "h-11 w-11",
             )}
           >
-            <Icon className={cn("h-5 w-5 transition-colors duration-200", styles.icon)} aria-hidden />
+            <Icon className="h-5 w-5" aria-hidden />
           </div>
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-md border border-primary/30 bg-primary/10 px-2 py-0.5 font-mono text-xs font-semibold text-primary">
-                {service.abbr}
-              </span>
-            </div>
+            <span className="eyebrow">{service.abbr}</span>
             <h3
               className={cn(
                 "mt-3 font-display font-semibold",
@@ -60,6 +48,10 @@ function ServiceCard({
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               {service.description}
             </p>
+            <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+              جزئیات بیشتر
+              <ArrowUpRight className="h-3.5 w-3.5 rtl:-scale-x-100" />
+            </span>
           </div>
         </div>
       </GlowCard>

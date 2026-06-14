@@ -75,7 +75,7 @@ export function ParticleNetwork({
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = "hsla(0, 84%, 60%, 0.55)";
+        ctx.fillStyle = "hsla(217, 91%, 45%, 0.2)";
         ctx.fill();
 
         for (let j = index + 1; j < particles.length; j++) {
@@ -85,11 +85,11 @@ export function ParticleNetwork({
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < connectionDistance) {
-            const opacity = 0.22 - distance / (connectionDistance * 4);
+            const opacity = 0.12 - distance / (connectionDistance * 5);
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `hsla(199, 55%, 48%, ${Math.max(opacity, 0.04)})`;
+            ctx.strokeStyle = `hsla(214, 95%, 45%, ${Math.max(opacity, 0.03)})`;
             ctx.lineWidth = 1;
             ctx.stroke();
           }

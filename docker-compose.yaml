@@ -24,7 +24,7 @@ services:
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
     restart: unless-stopped
     ports:
-      - "3001:3000"
+      - "3000:3000"
     env_file:
       - .env
     environment:
@@ -34,6 +34,49 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+
+  app-dev:
+    profiles: [ dev ]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "3001:3000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://payload:payload@postgres:5432/ravinsec
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - media_data:/app/media
+    depends_on:
+      postgres:
+        condition: service_healthy
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+        - action: sync
+          path: ./next.config.ts
+          target: /app/next.config.ts
+        - action: sync
+          path: ./tailwind.config.ts
+          target: /app/tailwind.config.ts
+        - action: sync
+          path: ./postcss.config.mjs
+          target: /app/postcss.config.mjs
+        - action: sync
+          path: ./tsconfig.json
+          target: /app/tsconfig.json
+        - action: sync
+          path: ./components.json
+          target: /app/components.json
+        - action: rebuild
+          path: ./package.json
+        - action: rebuild
+          path: ./pnpm-lock.yaml
 
 volumes:
   postgres_data:

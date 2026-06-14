@@ -25,7 +25,9 @@ function ContentColumn({ title, icon: Icon, href, posts, emptyMessage }: Content
     <div>
       <div className="mb-6 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <Icon className="h-5 w-5 text-primary" aria-hidden />
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
+            <Icon className="h-4 w-4 text-primary" aria-hidden />
+          </div>
           <h3 className="font-display text-xl font-semibold">{title}</h3>
         </div>
         <Button asChild variant="ghost" size="sm" className="shrink-0 text-muted-foreground">
@@ -61,7 +63,7 @@ export function LatestContentSection({ articles, news }: LatestContentSectionPro
     : "Payload را متصل کنید (فایل .env.example) تا اخبار از CMS بارگذاری شوند.";
 
   return (
-    <section className="surface-card section-padding border-t border-border/60">
+    <section className="section-padding border-t border-border">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
           badge="پایگاه دانش"

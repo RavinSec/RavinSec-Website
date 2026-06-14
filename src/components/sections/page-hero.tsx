@@ -8,19 +8,18 @@ type PageHeroProps = {
 
 export function PageHero({ badge, title, description }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden border-b border-border/60">
-      <div className="noise pointer-events-none absolute inset-0 opacity-[0.1]" aria-hidden />
-      <div className="grid-bg absolute inset-0 opacity-40" />
-      <div className="pointer-events-none absolute -start-32 top-10 h-48 w-48 rounded-full bg-primary/15 blur-[100px]" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-background" />
+    <section className="relative overflow-hidden border-b border-border bg-background">
+      <div className="bg-mesh pointer-events-none absolute inset-0" aria-hidden />
+      <div className="grid-bg absolute inset-0" />
+      <div className="pointer-events-none absolute -start-32 top-10 h-48 w-48 rounded-full bg-primary/8 blur-[100px]" />
 
       <div className="relative mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16">
         {badge ? (
-          <Badge variant="glow" className="mb-4">
+          <Badge variant="glow" className="mb-5">
             {badge}
           </Badge>
         ) : null}
-        <h1 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">{title}</h1>
+        <h1 className="heading-display max-w-3xl text-4xl sm:text-5xl">{title}</h1>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
           {description}
         </p>

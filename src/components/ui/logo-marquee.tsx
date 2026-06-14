@@ -11,7 +11,7 @@ export function LogoMarquee({ children, className }: LogoMarqueeProps) {
   return (
     <div
       className={cn(
-        "relative mt-12 overflow-hidden mask-[linear-gradient(to_left,transparent,black_10%,black_90%,transparent)]",
+        "relative mt-12 overflow-hidden mask-[linear-gradient(to_left,transparent,black_8%,black_92%,transparent)]",
         className,
       )}
     >

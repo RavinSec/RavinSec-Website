@@ -11,6 +11,26 @@ export const metadata: Metadata = {
   description: "برای ارزیابی امنیتی و مشاوره با RavinSec تماس بگیرید.",
 };
 
+function ContactInfoCard({
+  icon: Icon,
+  title,
+  children,
+}: {
+  icon: typeof Mail;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <GlowCard variant="border" glow={false}>
+      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+        <Icon className="h-5 w-5" aria-hidden />
+      </div>
+      <h2 className="mt-4 font-display text-lg font-semibold">{title}</h2>
+      {children}
+    </GlowCard>
+  );
+}
+
 export default function ContactPage() {
   return (
     <>
@@ -23,34 +43,28 @@ export default function ContactPage() {
       <div className="section-padding mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr]">
           <div className="space-y-4">
-            <GlowCard variant="border" glow={false}>
-              <Mail className="h-5 w-5 text-primary" aria-hidden />
-              <h2 className="mt-3 font-display text-lg font-semibold">ایمیل</h2>
+            <ContactInfoCard icon={Mail} title="ایمیل">
               <a
                 href={`mailto:${siteContact.email}`}
                 className="interactive mt-1 inline-block rounded-sm text-sm text-muted-foreground hover:text-primary"
               >
                 {siteContact.email}
               </a>
-            </GlowCard>
-            <GlowCard variant="border" glow={false}>
-              <Phone className="h-5 w-5 text-accent" aria-hidden />
-              <h2 className="mt-3 font-display text-lg font-semibold">تلفن</h2>
+            </ContactInfoCard>
+            <ContactInfoCard icon={Phone} title="تلفن">
               <a
                 href={`tel:${siteContact.phone.replace(/\D/g, "")}`}
                 className="interactive mt-1 inline-block rounded-sm text-sm text-muted-foreground hover:text-primary"
               >
                 {siteContact.phone}
               </a>
-            </GlowCard>
-            <GlowCard variant="border" glow={false}>
-              <MessageSquare className="h-5 w-5 text-accent" aria-hidden />
-              <h2 className="mt-3 font-display text-lg font-semibold">چه چیزی بنویسید</h2>
+            </ContactInfoCard>
+            <ContactInfoCard icon={MessageSquare} title="چه چیزی بنویسید">
               <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                 محیط هدف، زمان‌بندی، الزامات انطباق و سابقه ارزیابی‌های قبلی به ما کمک می‌کند
                 پیشنهادی متناسب ارائه دهیم.
               </p>
-            </GlowCard>
+            </ContactInfoCard>
           </div>
 
           <GlowCard variant="elevated" glow={false} className="p-6 sm:p-8">

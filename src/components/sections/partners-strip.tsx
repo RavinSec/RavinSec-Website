@@ -17,15 +17,17 @@ function PartnerLogoItem({ partner }: PartnerLogoItemProps) {
       alt={partner.name}
       width={120}
       height={32}
-      className="h-8 w-auto object-contain"
+      className="h-7 w-auto object-contain grayscale transition-[filter,opacity] duration-200 group-hover:grayscale-0"
     />
   ) : (
-    <span className="font-mono text-sm font-semibold tracking-wide">{partner.name}</span>
+    <span className="font-mono text-sm font-semibold tracking-wide text-muted-foreground transition-colors duration-200 group-hover:text-foreground">
+      {partner.name}
+    </span>
   );
 
   return (
     <li
-      className="flex h-8 shrink-0 items-center opacity-60 transition-opacity duration-200 hover:opacity-100"
+      className="group flex h-8 shrink-0 items-center opacity-50 transition-opacity duration-200 hover:opacity-100"
       aria-label={partner.name}
     >
       {partner.url ? (

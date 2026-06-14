@@ -29,20 +29,27 @@ export function SectionHeader({
       )}
     >
       {badge ? (
-        <Badge variant="glow" className="mb-4 font-mono text-[0.65rem] uppercase tracking-wider">
+        <Badge variant="glow" className="mb-5">
           {badge}
         </Badge>
       ) : null}
       <h2
         className={cn(
-          "heading-display",
+          "heading-display leading-tight",
           size === "lg" ? "text-4xl sm:text-5xl" : "text-3xl sm:text-4xl",
         )}
       >
         {title}
       </h2>
       {description ? (
-        <p className="mt-3 text-base leading-relaxed text-muted-foreground">{description}</p>
+        <p
+          className={cn(
+            "mt-4 text-base leading-relaxed text-muted-foreground",
+            align === "center" && "mx-auto max-w-xl",
+          )}
+        >
+          {description}
+        </p>
       ) : null}
     </div>
   );

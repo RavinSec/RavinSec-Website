@@ -15,10 +15,10 @@ export const categoryLabels: Record<ContentCategory, string> = {
 
 export const categoryStyles: Record<ContentCategory, string> = {
   "threat-analysis": "border-primary/30 bg-primary/10 text-primary",
-  remediation: "border-accent/30 bg-accent/10 text-accent",
-  guide: "border-border/80 bg-secondary/50 text-muted-foreground",
-  announcement: "border-amber-500/30 bg-amber-500/10 text-amber-400",
-  update: "border-border/80 bg-secondary/50 text-muted-foreground",
+  remediation: "border-primary/20 bg-primary/5 text-[hsl(217,91%,35%)]",
+  guide: "border-border bg-secondary text-muted-foreground",
+  announcement: "border-primary/40 bg-primary/10 text-primary",
+  update: "border-border bg-secondary text-muted-foreground",
 };
 
 export function getCategoryLabel(category?: string | null): string | null {

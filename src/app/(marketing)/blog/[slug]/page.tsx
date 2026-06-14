@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Calendar } from "lucide-react";
 
 import { RichText } from "@/components/cms/rich-text";
 import { Badge } from "@/components/ui/badge";
@@ -56,20 +56,23 @@ export default async function BlogPostPage({ params }: PageProps) {
         </Link>
       </Button>
 
-      <Badge variant="glow" className="mb-4">
-        مقاله
-      </Badge>
-      <p className="font-mono text-xs text-muted-foreground">{formatDate(post.publishedAt)}</p>
-      <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight">{post.title}</h1>
-      {post.excerpt ? (
-        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{post.excerpt}</p>
-      ) : null}
+      <header>
+        <Badge variant="glow" className="mb-5">
+          مقاله
+        </Badge>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <Calendar className="h-3.5 w-3.5" aria-hidden />
+          <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+        </div>
+        <h1 className="heading-display mt-4 text-4xl sm:text-5xl">{post.title}</h1>
+        {post.excerpt ? (
+          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{post.excerpt}</p>
+        ) : null}
+      </header>
 
-      <Separator className="my-10 bg-border/60" />
+      <Separator className="my-10 bg-border" />
 
-      <div className="prose prose-invert prose-headings:font-display prose-a:text-primary max-w-none">
-        <RichText data={post.body} />
-      </div>
+      <RichText data={post.body} />
     </article>
   );
 }

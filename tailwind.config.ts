@@ -57,7 +57,22 @@ const config: Config = {
         mono: ["var(--font-geist-mono)", "monospace"],
         display: ["var(--font-vazirmatn)", "system-ui", "sans-serif"],
       },
+      boxShadow: {
+        soft: "0 1px 2px hsl(var(--primary) / 0.04), 0 4px 12px hsl(var(--primary) / 0.06)",
+        elevated:
+          "0 2px 4px hsl(var(--primary) / 0.04), 0 8px 24px hsl(var(--primary) / 0.08)",
+        "glow-primary":
+          "0 2px 8px hsl(var(--primary) / 0.2), 0 0 0 1px hsl(var(--primary) / 0.08)",
+      },
       keyframes: {
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "scale-in": {
+          "0%": { opacity: "0", transform: "scale(0.97)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
         "fade-up": {
           "0%": { opacity: "0", transform: "translateY(16px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
@@ -75,6 +90,8 @@ const config: Config = {
         },
       },
       animation: {
+        "fade-in": "fade-in 0.5s ease-out forwards",
+        "scale-in": "scale-in 0.5s ease-out forwards",
         "fade-up": "fade-up 0.6s ease-out forwards",
         shimmer: "shimmer 2s infinite",
         "pulse-glow": "pulse-glow 3s ease-in-out infinite",

@@ -12,7 +12,8 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { mainNav } from "@/lib/navigation";
+import { isNavLinkActive, mainNav } from "@/lib/navigation";
+import { useHash } from "@/lib/use-hash";
 import { cn } from "@/lib/utils";
 
 function NavDropdownLink({
@@ -43,14 +44,10 @@ function NavDropdownLink({
 
 export function MainNav({ className }: { className?: string }) {
   const pathname = usePathname();
-
-  const isActive = (href?: string) => {
-    if (!href || href === "/") return pathname === "/";
-    return pathname === href || pathname.startsWith(`${href}/`);
-  };
+  const hash = useHash();
 
   return (
-    <NavigationMenu className={cn("hidden lg:flex", className)}>
+    <NavigationMenu dir="rtl" className={cn("hidden lg:flex", className)}>
       <NavigationMenuList className="gap-0.5">
         {mainNav.map((group) => {
           const hasDropdown = group.items || group.columns;
@@ -63,7 +60,7 @@ export function MainNav({ className }: { className?: string }) {
                     href={group.href}
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      isActive(group.href) && "bg-accent/50 text-foreground",
+                      isNavLinkActive(pathname, hash, group.href) && "bg-accent/50 text-foreground",
                     )}
                   >
                     {group.label}
@@ -77,7 +74,7 @@ export function MainNav({ className }: { className?: string }) {
             <NavigationMenuItem key={group.label}>
               <NavigationMenuTrigger
                 className={cn(
-                  isActive(group.href) && "bg-accent/50 text-foreground",
+                  isNavLinkActive(pathname, hash, group.href) && "bg-accent/50 text-foreground",
                 )}
               >
                 {group.label}

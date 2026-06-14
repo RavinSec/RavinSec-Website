@@ -39,7 +39,7 @@ export default function ProductsPage() {
                 glow={false}
                 className={cn("scroll-mt-28", isFeatured && "md:row-span-2")}
               >
-                <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   <Icon className="h-5 w-5" aria-hidden />
                 </div>
                 <h2
@@ -55,15 +55,12 @@ export default function ProductsPage() {
                 </p>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {product.tags.map((tag) => (
-                    <li
-                      key={tag}
-                      className="rounded-md border border-border/80 bg-secondary/50 px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-wide text-muted-foreground"
-                    >
+                    <li key={tag} className="eyebrow">
                       {tag}
                     </li>
                   ))}
                 </ul>
-                <ul className="mt-6 space-y-2 border-t border-border/60 pt-6">
+                <ul className="mt-6 space-y-2 border-t border-border pt-6">
                   {product.features.map((feature) => (
                     <li
                       key={feature}
@@ -78,7 +75,7 @@ export default function ProductsPage() {
           })}
         </div>
 
-        <GlowCard variant="elevated" glow={false} className="mt-16 rounded-2xl p-8 text-center">
+        <GlowCard variant="elevated" glow={false} className="mt-16 p-8 text-center">
           <h2 className="font-display text-xl font-semibold">به مشاوره یا دمو نیاز دارید؟</h2>
           <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
             درباره استقرار AfraSI، یکپارچه‌سازی خط لوله ML/LLM یا ترکیب محصولات با خدمات RavinSec
