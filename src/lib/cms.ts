@@ -3,6 +3,7 @@ import config from "@payload-config";
 import type { DefaultTypedEditorState } from "@payloadcms/richtext-lexical";
 
 import type { BlogPost, Media, NewsPost, PartnerLogo as PartnerLogoDoc, Testimony } from "@/payload-types";
+import { getPostPreviewText } from "@/lib/lexical-text";
 import {
   fallbackPartnerLogos,
   fallbackTestimonies,
@@ -23,6 +24,7 @@ export type ContentPost = {
   slug: string;
   publishedAt: string;
   excerpt?: string;
+  previewText?: string;
   category?: string;
   author?: string;
   coverImage?: Media | number | string | null;
@@ -46,6 +48,7 @@ function mapPost(doc: ContentDocument): ContentPost {
     slug: doc.slug,
     publishedAt: doc.publishedAt,
     excerpt: doc.excerpt ?? undefined,
+    previewText: getPostPreviewText(doc.excerpt, doc.body),
     category: doc.category ?? undefined,
     author: doc.author ?? undefined,
     coverImage: doc.coverImage,

@@ -33,7 +33,7 @@ export function ContentListing({
         <ContentPostCard post={featuredPost} basePath={basePath} featured />
       ) : null}
       {gridPosts.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {gridPosts.map((post) => (
             <ContentPostCard key={post.id} post={post} basePath={basePath} />
           ))}

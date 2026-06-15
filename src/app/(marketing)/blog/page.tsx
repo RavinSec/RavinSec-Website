@@ -22,8 +22,9 @@ export default async function BlogPage() {
       <PageHero
         badge="وبلاگ"
         title="دیدگاه‌های میدانی"
-        description="مقالات بلند درباره شیوه‌های امنیتی، ابزارها و درس‌های پروژه‌های واقعی."
+        description="دیدگاه‌های میدانی درباره تست امنیتی، ریسک و دفاع از تیم RavinSec."
       />
+
 
       <div className="section-padding mx-auto max-w-6xl px-4 sm:px-6">
         <ContentListing

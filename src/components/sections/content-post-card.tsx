@@ -21,7 +21,7 @@ function CategoryBadge({ post, basePath }: { post: ContentPost; basePath: "/blog
     return (
       <span
         className={cn(
-          "rounded-md border px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-wide",
+          "inline-flex w-fit self-start rounded-md border px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-wide",
           getCategoryStyle(post.category),
         )}
       >
@@ -30,7 +30,7 @@ function CategoryBadge({ post, basePath }: { post: ContentPost; basePath: "/blog
     );
   }
   return (
-    <Badge variant="outline" className="shrink-0 font-mono text-[0.65rem] uppercase">
+    <Badge variant="outline" className="w-fit shrink-0 self-start font-mono text-[0.65rem] uppercase">
       {basePath === "/blog" ? "مقاله" : "به‌روزرسانی"}
     </Badge>
   );
@@ -49,10 +49,10 @@ function PostCover({
     return (
       <div
         className={cn(
-          "relative w-full overflow-hidden border-border/60",
+          "relative shrink-0 overflow-hidden border-border/60 bg-muted/30",
           featured
-            ? "aspect-[21/9] border-b lg:aspect-auto lg:min-h-full lg:w-1/2 lg:border-b-0 lg:border-s"
-            : "aspect-[16/9] border-b",
+            ? "aspect-[16/9] w-full border-b lg:aspect-auto lg:min-h-[240px] lg:w-2/5 lg:border-b-0 lg:border-s"
+            : "aspect-[16/9] w-full border-b",
         )}
       >
         <Image
@@ -60,7 +60,7 @@ function PostCover({
           alt={post.title}
           fill
           className="object-cover transition-opacity duration-200 group-hover:opacity-90"
-          sizes={featured ? "(max-width: 1024px) 100vw, 50vw" : "(max-width: 768px) 100vw, 50vw"}
+          sizes={featured ? "(max-width: 1024px) 100vw, 40vw" : "(max-width: 768px) 100vw, 33vw"}
           priority={featured}
         />
       </div>
@@ -70,10 +70,10 @@ function PostCover({
   return (
     <div
       className={cn(
-        "relative w-full overflow-hidden border-border bg-gradient-to-br from-primary/8 via-white to-primary/5",
+        "relative shrink-0 overflow-hidden border-border bg-gradient-to-br from-primary/8 via-white to-primary/5",
         featured
-          ? "aspect-[21/9] border-b lg:aspect-auto lg:min-h-[220px] lg:w-1/2 lg:border-b-0 lg:border-s"
-          : "aspect-[16/9] border-b",
+          ? "aspect-[16/9] w-full border-b lg:aspect-auto lg:min-h-[240px] lg:w-2/5 lg:border-b-0 lg:border-s"
+          : "aspect-[16/9] w-full border-b",
       )}
       aria-hidden
     />
@@ -82,7 +82,8 @@ function PostCover({
 
 export function ContentPostCard({ post, basePath, featured = false }: ContentPostCardProps) {
   const coverUrl = urlForImage(post.coverImage);
-  const readMinutes = estimateReadMinutes(post.excerpt);
+  const previewText = post.previewText ?? post.excerpt;
+  const readMinutes = estimateReadMinutes(previewText);
   const author = post.author ?? "تیم RavinSec";
 
   if (featured) {
@@ -94,17 +95,17 @@ export function ContentPostCard({ post, basePath, featured = false }: ContentPos
         <GlowCard
           variant="elevated"
           glow={false}
-          className="h-full overflow-hidden p-0 lg:flex lg:flex-row-reverse"
+          className="flex h-full flex-col overflow-hidden p-0 lg:flex-row"
         >
           <PostCover post={post} coverUrl={coverUrl} featured />
-          <div className="flex flex-1 flex-col justify-center p-8 lg:p-10">
+          <div className="flex min-w-0 flex-1 flex-col justify-center p-6 sm:p-8 lg:p-10">
             <CategoryBadge post={post} basePath={basePath} />
             <h3 className="mt-4 font-display text-2xl font-semibold leading-snug group-hover:text-primary sm:text-3xl">
               {post.title}
             </h3>
-            {post.excerpt ? (
-              <p className="mt-3 line-clamp-3 text-base leading-relaxed text-muted-foreground">
-                {post.excerpt}
+            {previewText ? (
+              <p className="mt-3 line-clamp-4 text-base leading-relaxed text-muted-foreground">
+                {previewText}
               </p>
             ) : null}
             <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
@@ -136,9 +137,13 @@ export function ContentPostCard({ post, basePath, featured = false }: ContentPos
       href={`${basePath}/${post.slug}`}
       className="interactive group block rounded-2xl focus-visible:rounded-2xl"
     >
-      <GlowCard variant="border" glow={false} className="h-full overflow-hidden p-0">
+      <GlowCard
+        variant="border"
+        glow={false}
+        className="flex h-full flex-col overflow-hidden p-0"
+      >
         <PostCover post={post} coverUrl={coverUrl} />
-        <div className="p-6">
+        <div className="flex flex-1 flex-col p-5 sm:p-6">
           <div className="flex items-start justify-between gap-4">
             <CategoryBadge post={post} basePath={basePath} />
             <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors duration-200 group-hover:text-primary rtl:-scale-x-100" />
@@ -146,9 +151,9 @@ export function ContentPostCard({ post, basePath, featured = false }: ContentPos
           <h3 className="mt-4 font-display text-xl font-semibold leading-snug group-hover:text-primary">
             {post.title}
           </h3>
-          {post.excerpt ? (
-            <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-              {post.excerpt}
+          {previewText ? (
+            <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+              {previewText}
             </p>
           ) : null}
           <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
