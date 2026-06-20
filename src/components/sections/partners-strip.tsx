@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { LogoMarquee } from "@/components/ui/logo-marquee";
 import { SectionHeader, TitleAccent } from "@/components/sections/section-header";
@@ -12,32 +13,31 @@ type PartnerLogoItemProps = {
 
 function PartnerLogoItem({ partner }: PartnerLogoItemProps) {
   const content = partner.logoUrl ? (
-    <Image
-      src={partner.logoUrl}
-      alt={partner.name}
-      width={120}
-      height={32}
-      className="h-7 w-auto object-contain grayscale transition-[filter,opacity] duration-200 group-hover:grayscale-0"
-    />
+    <div className="flex h-14 items-center justify-center px-6">
+      <Image
+        src={partner.logoUrl}
+        alt={partner.name}
+        width={120}
+        height={40}
+        className="h-8 w-auto object-contain grayscale opacity-70 transition hover:grayscale-0 hover:opacity-100"
+      />
+    </div>
   ) : (
-    <span className="font-mono text-sm font-semibold tracking-wide text-muted-foreground transition-colors duration-200 group-hover:text-foreground">
+    <span className="text-sm font-medium text-slate-600">
       {partner.name}
     </span>
   );
 
-  return (
-    <li
-      className="group flex h-8 shrink-0 items-center opacity-50 transition-opacity duration-200 hover:opacity-100"
-      aria-label={partner.name}
+  return partner.url ? (
+    <Link
+      href={partner.url}
+      target="_blank"
+      className="flex items-center justify-center px-2 transition hover:scale-[1.03]"
     >
-      {partner.url ? (
-        <a href={partner.url} target="_blank" rel="noopener noreferrer" className="flex items-center">
-          {content}
-        </a>
-      ) : (
-        content
-      )}
-    </li>
+      {content}
+    </Link>
+  ) : (
+    <div className="flex items-center justify-center px-2">{content}</div>
   );
 }
 
@@ -45,27 +45,34 @@ type PartnersStripSectionProps = {
   partners: PartnerLogo[];
 };
 
-export function PartnersStripSection({ partners }: PartnersStripSectionProps) {
+export function PartnersStripSection({
+  partners,
+}: PartnersStripSectionProps) {
   if (partners.length === 0) return null;
 
-  const partnerItems = partners.map((partner) => (
-    <PartnerLogoItem key={partner.id} partner={partner} />
+  const partnerItems = partners.map((partner, idx) => (
+    <PartnerLogoItem key={partner.name + idx} partner={partner} />
   ));
 
   return (
-    <section className="section-padding mx-auto max-w-6xl px-4 sm:px-6">
-      <SectionHeader
-        badge="شرکا"
-        title={
-          <>
-            شرکای فناوری و <TitleAccent>اتحاد</TitleAccent>
-          </>
-        }
-        description="ما پلتفرم‌های امنیتی پیشرو را در کنار خدمات مدیریت‌شده و مشاوره‌ای یکپارچه و عملیاتی می‌کنیم."
-        align="center"
-        className="mx-auto"
-      />
-      <LogoMarquee>{partnerItems}</LogoMarquee>
+    <section className="py-20 bg-gradient-to-b from-white via-slate-50 to-white">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionHeader
+          badge="مورد اعتماد سازمان‌ها"
+          title={
+            <>
+              اعتماد <TitleAccent>تیم‌های فناوری و امنیت</TitleAccent>
+            </>
+          }
+          description="شرکت‌ها و سازمان‌های مختلف برای ارزیابی امنیت، تست نفوذ و ارتقای امنیت اپلیکیشن‌های خود به راوین‌سک اعتماد کرده‌اند."
+          align="center"
+          className="mx-auto max-w-3xl"
+        />
+
+        <div className="mt-14 overflow-hidden rounded-3xl border border-slate-200 bg-white/70 px-6 py-10 shadow-sm backdrop-blur-md">
+          <LogoMarquee>{partnerItems}</LogoMarquee>
+        </div>
+      </div>
     </section>
   );
 }

@@ -45,7 +45,10 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div className="sticky top-0 z-50 px-4 pt-4">
+      <div className={cn("fixed transition-all duration-200 h-16 inset-0 z-50 ",scrolled?
+      "top-3":
+      "top-12"
+      )}>
         <header
           dir="rtl"
           className={cn(

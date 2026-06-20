@@ -10,7 +10,8 @@ import {
   useReducedMotionPreferred,
 } from "@/lib/motion";
 
-import { SectionHeader, TitleAccent } from "./section-header";
+import { SectionHeader } from "@/components/sections/section-header";
+import { cn } from "@/lib/utils";
 
 const values = [
   {
@@ -39,69 +40,98 @@ const metrics = [
   { label: "گواهینامه‌ها", value: "OWASP · ISO", compact: true },
 ];
 
+function ValueCard({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: any;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="flex gap-4 rounded-xl border border-border/60 bg-background p-5 transition-colors hover:border-primary/20">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+        <Icon className="h-5 w-5" />
+      </div>
+
+      <div>
+        <h3 className="font-display text-base font-semibold tracking-tight text-foreground">
+          {title}
+        </h3>
+        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+          {description}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function AboutUsSection() {
   const reducedMotion = useReducedMotionPreferred();
 
   return (
-    <section id="about" className="surface-muted section-padding overflow-hidden">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <motion.div {...slideInViewProps(reducedMotion)}>
-            <SectionHeader
-              title={
-                <>
-                  درباره <TitleAccent>RavinSec</TitleAccent>
-                </>
-              }
-              description="RavinSec توسط متخصصان برجسته امنیت تهاجمی و دفاعی تأسیس شد تا فاصله میان انطباق و امنیت واقعی را پر کند. ما با سازمان‌ها همکاری می‌کنیم تا معماری‌های مقاوم بسازند و آن‌ها را در برابر مهاجمان واقعی آزمایش کنیم."
-              align="left"
-            />
-            <div className="mt-8 space-y-4">
-              {values.map((value) => (
-                <GlowCard key={value.title} variant="border" glow={false} className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <value.icon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-foreground">{value.title}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">{value.description}</p>
-                  </div>
-                </GlowCard>
-              ))}
-            </div>
-          </motion.div>
+    <section className="mx-auto max-w-6xl px-4 py-16">
+      <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <motion.div {...slideInViewProps(reducedMotion)}>
+          <SectionHeader
+            badge="درباره ما"
+            title={<>درباره RavinSec</>}
+            description="RavinSec توسط متخصصان برجسته امنیت تهاجمی و دفاعی تأسیس شد تا فاصله میان انطباق و امنیت واقعی را پر کند. ما با سازمان‌ها همکاری می‌کنیم تا معماری‌های مقاوم بسازند و آن‌ها را در برابر مهاجمان واقعی آزمایش کنیم."
+            align="left"
+          />
 
-          <motion.div {...scaleInViewProps(reducedMotion)}>
-            <GlowCard variant="elevated" glow={false} className="p-8">
-              <h3 className="font-display text-2xl font-semibold">در یک نگاه</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                بیش از یک دهه تجربه ترکیبی در حفاظت از زیرساخت‌های حیاتی و شرکت‌های فناوری
-                پررشد.
-              </p>
-              <dl className="mt-8 grid grid-cols-3 gap-3">
-                {metrics.map((metric) => (
-                  <div
-                    key={metric.label}
-                    className="flex min-h-[5.5rem] flex-col items-center justify-center rounded-xl border border-border bg-white px-2 py-4 text-center shadow-soft sm:min-h-[6rem] sm:px-3"
+          <div className="mt-10 grid gap-5">
+            {values.map((value) => (
+              <ValueCard
+                key={value.title}
+                icon={value.icon}
+                title={value.title}
+                description={value.description}
+              />
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div {...scaleInViewProps(reducedMotion)}>
+          <GlowCard variant="elevated" glow={false} className="p-8">
+            <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+              در یک نگاه
+            </h3>
+
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              بیش از یک دهه تجربه ترکیبی در حفاظت از زیرساخت‌های حیاتی و شرکت‌های فناوری
+              پررشد.
+            </p>
+
+            <dl className="mt-8 grid grid-cols-3 gap-3">
+              {metrics.map((metric) => (
+                <div
+                  key={metric.label}
+                  className={cn(
+                    "flex min-h-[5.5rem] flex-col items-center justify-center rounded-xl border bg-background px-2 py-4 text-center transition-colors",
+                    "border-border/60 hover:border-primary/20"
+                  )}
+                >
+                  <dt className="text-[0.65rem] leading-snug text-muted-foreground sm:text-xs">
+                    {metric.label}
+                  </dt>
+
+                  <dd
+                    className={cn(
+                      "mt-2 text-primary",
+                      metric.compact
+                        ? "font-mono text-[0.7rem] font-semibold sm:text-xs"
+                        : "text-lg font-semibold"
+                    )}
                   >
-                    <dt className="text-[0.65rem] leading-snug text-muted-foreground sm:text-xs">
-                      {metric.label}
-                    </dt>
-                    <dd
-                      className={
-                        metric.compact
-                          ? "mt-2 font-mono text-[0.65rem] font-semibold leading-none text-primary sm:text-xs"
-                          : "stat-value mt-2 leading-none text-primary"
-                      }
-                    >
-                      {metric.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </GlowCard>
-          </motion.div>
-        </div>
+                    {metric.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </GlowCard>
+        </motion.div>
       </div>
     </section>
   );
