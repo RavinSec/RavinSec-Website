@@ -64,6 +64,10 @@ function blockNode(block: Block, listValue = 1) {
     };
   }
 
+  if (block.kind !== "ul" && block.kind !== "ol") {
+    throw new Error(`Unsupported block: ${block.kind}`);
+  }
+
   const ordered = block.kind === "ol";
   return {
     type: "list",
