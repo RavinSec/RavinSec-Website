@@ -2,6 +2,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { sqliteAdapter } from "@payloadcms/db-sqlite";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
 import sharp from "sharp";
@@ -16,6 +17,19 @@ import { Users } from "./collections/Users";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+/**
+ * Production (ravinsec.ir) keeps its content in SQLite (`file:/app/data/payload.db`).
+ * Local development uses PostgreSQL. The URL scheme picks the adapter.
+ */
+const databaseUrl = process.env.DATABASE_URL || "";
+const db = databaseUrl.startsWith("file:")
+  ? sqliteAdapter({
+      client: { url: databaseUrl },
+    })
+  : postgresAdapter({
+      pool: { connectionString: databaseUrl },
+    });
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -25,11 +39,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, BlogPosts, NewsPosts, Testimonies, PartnerLogos],
-  db: postgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URL || "",
-    },
-  }),
+  db,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   sharp,

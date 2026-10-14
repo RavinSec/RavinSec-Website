@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { CatalogIcon } from "@/components/catalogs/catalog-icons";
 import { catalogEase, useCatalogReducedMotion } from "@/components/catalogs/reveal";
 import type { CatalogPipelineStep } from "@/lib/catalogs";
+import { loopFrames } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const LOOP = 5.2;
@@ -72,26 +73,13 @@ export function CatalogPipeline({ steps, className }: CatalogPipelineProps) {
                         "rounded-md border px-2 py-0.5 text-[0.7rem] font-medium",
                         isScan ? "border-primary/25 bg-primary/5 text-primary" : "border-border bg-muted text-muted-foreground",
                       )}
-                      animate={
-                        isScan && !reduced
-                          ? { opacity: [0.45, 1, 1, 0.45], scale: [1, 1.04, 1.04, 1] }
-                          : undefined
-                      }
-                      transition={
-                        isScan && !reduced
-                          ? {
-                              duration: LOOP,
-                              times: [
-                                0.3 + chipIndex * 0.08,
-                                0.36 + chipIndex * 0.08,
-                                0.62,
-                                0.7,
-                              ],
-                              repeat: Infinity,
-                              ease: "easeInOut",
-                            }
-                          : undefined
-                      }
+                      {...(isScan && !reduced
+                        ? loopFrames(
+                            { opacity: [0.45, 1, 1, 0.45], scale: [1, 1.04, 1.04, 1] },
+                            [0.3 + chipIndex * 0.08, 0.36 + chipIndex * 0.08, 0.62, 0.7],
+                            { duration: LOOP, reduced },
+                          )
+                        : {})}
                     >
                       {chip}
                     </motion.li>

@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { Globe, Lock, ShieldCheck, Usb } from "lucide-react";
 
 import { catalogEase, useCatalogReducedMotion } from "@/components/catalogs/reveal";
+import { loopFrames } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -20,10 +21,12 @@ const kioskStates = [
   { key: "safe", label: "امن — آماده دریافت", times: [0.77, 0.8, 0.95, 0.98] },
 ] as const;
 
+const engineIdle = "rgba(34,211,238,0.1)";
+const engineClean = "rgba(16,185,129,0.55)";
+
 export function KioskVisual({ className }: { className?: string }) {
   const reduced = useCatalogReducedMotion();
-  const loop = (times: readonly number[]) =>
-    reduced ? undefined : { duration: KIOSK_LOOP, times: [...times], repeat: Infinity, ease: "easeInOut" as const };
+  const base = { duration: KIOSK_LOOP, reduced };
 
   return (
     <div
@@ -48,8 +51,7 @@ export function KioskVisual({ className }: { className?: string }) {
               </span>
               <motion.span
                 className="h-1.5 w-1.5 rounded-full bg-emerald-400"
-                animate={reduced ? undefined : { opacity: [0.4, 1, 0.4] }}
-                transition={reduced ? undefined : { duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                {...loopFrames({ opacity: [0.4, 1, 0.4] }, [0, 0.5, 1], { duration: 1.8, reduced })}
               />
             </div>
 
@@ -57,31 +59,42 @@ export function KioskVisual({ className }: { className?: string }) {
             <div className="relative flex h-[58%] items-center justify-center">
               <motion.div
                 className="absolute flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/30 bg-cyan-400/10 text-cyan-200"
-                animate={reduced ? { opacity: 0 } : { opacity: [1, 1, 0, 0, 0, 0, 0, 0, 1], scale: [1, 1, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 1] }}
-                transition={loop([0, 0.2, 0.24, 0.5, 0.6, 0.7, 0.8, 0.96, 1])}
+                {...loopFrames(
+                  { opacity: [1, 1, 0, 0, 1], scale: [1, 1, 0.9, 0.9, 1] },
+                  [0, 0.2, 0.24, 0.96, 1],
+                  { ...base, reducedFrames: { opacity: 0, scale: 0.9 } },
+                )}
               >
                 <Usb className="h-4 w-4" />
               </motion.div>
 
               <motion.div
                 className="absolute flex items-center gap-1"
-                animate={reduced ? { opacity: 0 } : { opacity: [0, 0, 1, 1, 0, 0] }}
-                transition={loop([0, 0.57, 0.6, 0.74, 0.77, 1])}
+                {...loopFrames({ opacity: [0, 0, 1, 1, 0] }, [0, 0.57, 0.6, 0.74, 0.77], {
+                  ...base,
+                  reducedFrames: { opacity: 0 },
+                })}
               >
                 {[0, 1, 2].map((i) => (
                   <motion.span
                     key={i}
                     className="h-6 w-6 rounded-md border border-cyan-400/30 bg-cyan-400/10"
-                    animate={reduced ? undefined : { backgroundColor: ["rgba(34,211,238,0.1)", "rgba(34,211,238,0.1)", "rgba(16,185,129,0.55)", "rgba(16,185,129,0.55)", "rgba(34,211,238,0.1)"] }}
-                    transition={loop([0, 0.6 + i * 0.04, 0.63 + i * 0.04, 0.74, 0.77])}
+                    {...loopFrames(
+                      { backgroundColor: [engineIdle, engineIdle, engineClean, engineClean, engineIdle] },
+                      [0, 0.6 + i * 0.04, 0.63 + i * 0.04, 0.74, 0.77],
+                      base,
+                    )}
                   />
                 ))}
               </motion.div>
 
               <motion.div
                 className="absolute flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white shadow-[0_0_24px_rgba(16,185,129,0.6)]"
-                animate={reduced ? { opacity: 1, scale: 1 } : { opacity: [0, 0, 1, 1, 0], scale: [0.6, 0.6, 1, 1, 0.8] }}
-                transition={loop([0, 0.77, 0.81, 0.95, 0.98])}
+                {...loopFrames(
+                  { opacity: [0, 0, 1, 1, 0], scale: [0.6, 0.6, 1, 1, 0.8] },
+                  [0, 0.77, 0.81, 0.95, 0.98],
+                  { ...base, reducedFrames: { opacity: 1, scale: 1 } },
+                )}
               >
                 <ShieldCheck className="h-5 w-5" />
               </motion.div>
@@ -95,12 +108,10 @@ export function KioskVisual({ className }: { className?: string }) {
                     key={state.key}
                     dir="rtl"
                     className="absolute inset-0 text-right text-[0.55rem] text-slate-300"
-                    animate={
-                      reduced
-                        ? { opacity: state.key === "safe" ? 1 : 0 }
-                        : { opacity: [0, 1, 1, 0] }
-                    }
-                    transition={loop(state.times)}
+                    {...loopFrames({ opacity: [0, 1, 1, 0] }, [...state.times], {
+                      ...base,
+                      reducedFrames: { opacity: state.key === "safe" ? 1 : 0 },
+                    })}
                   >
                     {state.label}
                   </motion.span>
@@ -109,8 +120,10 @@ export function KioskVisual({ className }: { className?: string }) {
               <div className="mt-1 h-1 overflow-hidden rounded-full bg-white/10">
                 <motion.div
                   className="h-full origin-left rounded-full bg-gradient-to-r from-cyan-400 to-sky-400"
-                  animate={reduced ? { scaleX: 1 } : { scaleX: [0, 0, 1, 1, 1, 0] }}
-                  transition={loop([0, 0.24, 0.54, 0.77, 0.96, 1])}
+                  {...loopFrames({ scaleX: [0, 0, 1, 1, 1, 0] }, [0, 0.24, 0.54, 0.77, 0.96, 1], {
+                    ...base,
+                    reducedFrames: { scaleX: 1 },
+                  })}
                 />
               </div>
             </div>
@@ -124,15 +137,20 @@ export function KioskVisual({ className }: { className?: string }) {
       {/* USB stick travelling into the kiosk */}
       <motion.div
         className="absolute bottom-[14%] left-[8%] flex items-center gap-1 rounded-md border border-slate-300 bg-white px-2 py-1 text-slate-600 shadow-soft"
-        animate={reduced ? { opacity: 1 } : { x: [0, 0, 56, 56, 56, 0], opacity: [1, 1, 1, 0.35, 0.35, 1] }}
-        transition={loop([0, 0.04, 0.2, 0.24, 0.96, 1])}
+        {...loopFrames(
+          { x: [0, 0, 56, 56, 56, 0], opacity: [1, 1, 1, 0.35, 0.35, 1] },
+          [0, 0.04, 0.2, 0.24, 0.96, 1],
+          { ...base, reducedFrames: { x: 0, opacity: 1 } },
+        )}
       >
         <Usb className="h-3.5 w-3.5" />
         <span className="font-mono text-[0.55rem]">USB</span>
         <motion.span
           className="absolute -right-10 top-1/2 h-px w-10 -translate-y-1/2 bg-gradient-to-r from-primary/60 to-transparent"
-          animate={reduced ? undefined : { opacity: [0, 1, 1, 0, 0, 0] }}
-          transition={loop([0, 0.06, 0.18, 0.22, 0.96, 1])}
+          {...loopFrames({ opacity: [0, 1, 1, 0, 0] }, [0, 0.06, 0.18, 0.22, 1], {
+            ...base,
+            reducedFrames: { opacity: 0 },
+          })}
         />
       </motion.div>
 
@@ -141,8 +159,11 @@ export function KioskVisual({ className }: { className?: string }) {
         <span className="font-mono text-[0.55rem]">AfraAV</span>
         <motion.span
           className="h-1.5 w-1.5 rounded-full bg-primary"
-          animate={reduced ? undefined : { opacity: [0.3, 0.3, 1, 1, 0.3], scale: [1, 1, 1.4, 1.4, 1] }}
-          transition={loop([0, 0.24, 0.3, 0.74, 0.8])}
+          {...loopFrames(
+            { opacity: [0.3, 0.3, 1, 1, 0.3], scale: [1, 1, 1.4, 1.4, 1] },
+            [0, 0.24, 0.3, 0.74, 0.8],
+            { ...base, reducedFrames: { opacity: 1, scale: 1 } },
+          )}
         />
       </div>
     </div>
@@ -180,8 +201,10 @@ export function IsolatedBrowserVisual({ className }: { className?: string }) {
         />
         <motion.div
           className="absolute inset-0 rounded-full border border-primary/20"
-          animate={reduced ? undefined : { scale: [1, 1.04, 1], opacity: [0.5, 0.9, 0.5] }}
-          transition={reduced ? undefined : { duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+          {...loopFrames({ scale: [1, 1.04, 1], opacity: [0.5, 0.9, 0.5] }, [0, 0.5, 1], {
+            duration: 3.2,
+            reduced,
+          })}
         />
         <div className="absolute inset-[6%] rounded-full bg-primary/[0.04]" />
 
@@ -233,8 +256,7 @@ export function IsolatedBrowserVisual({ className }: { className?: string }) {
             <span className="font-mono">https://</span>
             <motion.span
               className="h-2 w-px bg-slate-400"
-              animate={reduced ? undefined : { opacity: [1, 0, 1] }}
-              transition={reduced ? undefined : { duration: 1.1, repeat: Infinity }}
+              {...loopFrames({ opacity: [1, 0, 1] }, [0, 0.5, 1], { duration: 1.1, reduced, ease: "linear" })}
             />
           </div>
         </div>

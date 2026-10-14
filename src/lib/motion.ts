@@ -91,6 +91,64 @@ export function scaleInViewProps(reduced: boolean, opts: InViewOptions = {}) {
   };
 }
 
+type KeyframeValue = string | number;
+type Keyframes = Record<string, KeyframeValue[]>;
+
+type LoopFramesOptions = {
+  duration: number;
+  reduced: boolean;
+  ease?: Transition["ease"];
+  delay?: number;
+  /** Static values to show when motion is reduced; defaults to each track's last keyframe. */
+  reducedFrames?: Record<string, KeyframeValue>;
+};
+
+/**
+ * Infinite keyframe loop whose `times` may start after 0 or end before 1.
+ *
+ * When offsets don't span the full 0–1 range, browsers synthesise neutral
+ * keyframes from the element's underlying CSS value, which blends the track
+ * towards that value for the uncovered part of the loop. Padding the first and
+ * last keyframes to offsets 0 and 1 makes the values hold instead.
+ * Returns `animate`/`transition` props for a motion element.
+ */
+export function loopFrames(frames: Keyframes, times: number[], opts: LoopFramesOptions) {
+  const { duration, reduced, ease = "easeInOut", delay, reducedFrames } = opts;
+
+  if (reduced) {
+    const animate: Record<string, KeyframeValue> = {};
+    for (const [key, values] of Object.entries(frames)) {
+      animate[key] = reducedFrames?.[key] ?? values[values.length - 1];
+    }
+    return { animate };
+  }
+
+  const padStart = times[0] > 0;
+  const padEnd = times[times.length - 1] < 1;
+  const animate: Keyframes = {};
+  for (const [key, values] of Object.entries(frames)) {
+    const padded = [...values];
+    if (padStart) padded.unshift(values[0]);
+    if (padEnd) padded.push(values[values.length - 1]);
+    animate[key] = padded;
+  }
+
+  const paddedTimes = [...times];
+  if (padStart) paddedTimes.unshift(0);
+  if (padEnd) paddedTimes.push(1);
+
+  return {
+    animate,
+    transition: {
+      duration,
+      delay,
+      times: paddedTimes,
+      repeat: Infinity,
+      ease,
+    } satisfies Transition,
+  };
+}
+
 export function pageEnterProps(reduced: boolean) {
   if (reduced) {
     return { initial: false as const, animate: { opacity: 1 } };

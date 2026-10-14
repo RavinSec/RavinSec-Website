@@ -1,94 +1,71 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, BookOpen } from "lucide-react";
 
+import { ProductDetailSections, ProductsJumpBar } from "@/components/products/product-detail";
 import { PageHero } from "@/components/sections/page-hero";
 import { Button } from "@/components/ui/button";
-import { GlowCard } from "@/components/ui/glow-card";
-import { products } from "@/lib/products";
-import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "محصولات",
   description:
-    "AfraSI (VDI) و تست نفوذ مبتنی بر Machine Learning و LLM — محصولات اختصاصی RavinSec.",
+    "افراسی (AfraSI) — سامانه کنترل امن ورود و خروج فایل با کیوسک و مرورگر ایزوله — و تست نفوذ مبتنی بر Machine Learning و LLM؛ محصولات اختصاصی RavinSec.",
 };
 
 export default function ProductsPage() {
-  const [featured, secondary] = products;
-
   return (
     <>
       <PageHero
         badge="محصولات"
         title="فناوری امنیتی ساخته‌شده برای عملیات واقعی"
-        description="محصولات RavinSec دسترسی امن، خودکارسازی تست نفوذ و خطوط دفاعی چندلایه را در قالبی قابل استقرار و پشتیبانی ارائه می‌دهند."
+        description="محصولات RavinSec کنترل امن فایل، دسترسی ایزوله به اینترنت و خودکارسازی تست نفوذ را در قالبی قابل استقرار و پشتیبانی ارائه می‌دهند."
       />
 
-      <div className="section-padding mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid gap-6 md:grid-cols-2 md:grid-rows-2">
-          {[featured, secondary].map((product, index) => {
-            const Icon = product.icon;
-            const isFeatured = index === 0;
-
-            return (
-              <GlowCard
-                key={product.id}
-                id={product.id}
-                variant={isFeatured ? "elevated" : "border"}
-                glow={false}
-                className={cn("scroll-mt-28", isFeatured && "md:row-span-2")}
-              >
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <Icon className="h-5 w-5" aria-hidden />
-                </div>
-                <h2
-                  className={cn(
-                    "mt-5 font-display font-semibold",
-                    isFeatured ? "text-2xl" : "text-xl",
-                  )}
-                >
-                  {product.name}
-                </h2>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {product.longDescription}
-                </p>
-                <ul className="mt-4 flex flex-wrap gap-2">
-                  {product.tags.map((tag) => (
-                    <li key={tag} className="eyebrow">
-                      {tag}
-                    </li>
-                  ))}
-                </ul>
-                <ul className="mt-6 space-y-2 border-t border-border pt-6">
-                  {product.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex gap-2 text-sm text-muted-foreground before:mt-2 before:h-1 before:w-1 before:shrink-0 before:rounded-full before:bg-primary"
-                    >
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </GlowCard>
-            );
-          })}
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="-mt-8 relative z-10 sm:-mt-10">
+          <ProductsJumpBar />
         </div>
 
-        <GlowCard variant="elevated" glow={false} className="mt-16 p-8 text-center">
-          <h2 className="font-display text-xl font-semibold">به مشاوره یا دمو نیاز دارید؟</h2>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
-            درباره استقرار AfraSI، یکپارچه‌سازی خط لوله ML/LLM یا ترکیب محصولات با خدمات RavinSec
-            با ما صحبت کنید.
-          </p>
-          <Button asChild className="mt-6">
-            <Link href="/contact" className="gap-2">
-              تماس با ما
-              <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" />
-            </Link>
-          </Button>
-        </GlowCard>
+        <ProductDetailSections />
       </div>
+
+      {/* Closing CTA */}
+      <section className="relative isolate overflow-hidden bg-[#06152b] py-20 text-slate-100 sm:py-24">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(34,211,238,0.14),transparent_55%)]" />
+        <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-8 px-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-2xl">
+            <span className="inline-flex items-center rounded-md border border-cyan-400/25 bg-cyan-400/10 px-2.5 py-0.5 font-mono text-[0.65rem] font-medium uppercase tracking-wider text-cyan-200">
+              مشاوره و دمو
+            </span>
+            <h2 className="heading-display mt-5 text-3xl leading-tight text-white sm:text-4xl">
+              استقرار را با یک جلسه فنی شروع کنید
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-slate-400">
+              درباره استقرار افراسی در شبکه سازمان، یکپارچه‌سازی خط لوله ML/LLM یا ترکیب محصولات با
+              خدمات مدیریت‌شده RavinSec با تیم ما صحبت کنید.
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-3">
+            <Button asChild size="lg" className="bg-cyan-400 text-slate-950 shadow-none hover:bg-cyan-300">
+              <Link href="/contact" className="gap-2">
+                درخواست مشاوره
+                <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" aria-hidden />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-white/20 bg-transparent text-slate-100 hover:border-cyan-400/40 hover:bg-white/5 hover:text-white"
+            >
+              <Link href="/catalogs" className="gap-2">
+                <BookOpen className="h-4 w-4" aria-hidden />
+                کاتالوگ‌های محصول
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

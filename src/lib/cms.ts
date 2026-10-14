@@ -1,9 +1,10 @@
 import { getPayload } from "payload";
 import config from "@payload-config";
-import type { DefaultTypedEditorState } from "@payloadcms/richtext-lexical";
 
-import type { BlogPost, Media, NewsPost, PartnerLogo as PartnerLogoDoc, Testimony } from "@/payload-types";
-import { getPostPreviewText } from "@/lib/lexical-text";
+import type { BlogPost, NewsPost, PartnerLogo as PartnerLogoDoc, Testimony } from "@/payload-types";
+import { type ContentPost, type ContentPostDetail, urlForImage } from "@/lib/content";
+import { estimateReadMinutes } from "@/lib/format";
+import { extractPlainText, getPostPreviewText } from "@/lib/lexical-text";
 import {
   fallbackPartnerLogos,
   fallbackTestimonies,
@@ -18,21 +19,6 @@ const payloadSecret = process.env.PAYLOAD_SECRET?.trim();
 
 export const cmsConfigured = Boolean(databaseUrl && payloadSecret);
 
-export type ContentPost = {
-  id: string;
-  title: string;
-  slug: string;
-  publishedAt: string;
-  excerpt?: string;
-  previewText?: string;
-  category?: string;
-  author?: string;
-  coverImage?: Media | number | string | null;
-};
-
-export type ContentPostDetail = ContentPost & {
-  body?: DefaultTypedEditorState | null;
-};
 
 type ContentCollection = "blog-posts" | "news-posts";
 type ContentDocument = BlogPost | NewsPost;
@@ -53,6 +39,59 @@ function mapPost(doc: ContentDocument): ContentPost {
     author: doc.author ?? undefined,
     coverImage: doc.coverImage,
   };
+}
+
+function mapPostDetail(doc: ContentDocument): ContentPostDetail {
+  const body = doc.body ?? null;
+  const bodyText = extractPlainText(body);
+  return {
+    ...mapPost(doc),
+    body,
+    readMinutes: estimateReadMinutes(bodyText || doc.excerpt),
+  };
+}
+
+/**
+ * A few other posts to show under an article: same category first, then the
+ * most recent. One cheap query, filtered in memory.
+ */
+async function fetchRelatedPosts(
+  collection: ContentCollection,
+  currentSlug: string,
+  category: string | undefined,
+  limit: number,
+): Promise<ContentPost[]> {
+  if (!cmsConfigured) return [];
+
+  const payload = await getPayloadClient();
+  const result = await payload.find({
+    collection,
+    limit: 12,
+    sort: "-publishedAt",
+    depth: 1,
+    where: { slug: { not_equals: currentSlug } },
+  });
+
+  const posts = result.docs.map(mapPost);
+  const sameCategory = category ? posts.filter((post) => post.category === category) : [];
+  const rest = posts.filter((post) => !sameCategory.includes(post));
+  return [...sameCategory, ...rest].slice(0, limit);
+}
+
+export async function getRelatedBlogPosts(
+  currentSlug: string,
+  category?: string,
+  limit = 3,
+): Promise<ContentPost[]> {
+  return fetchRelatedPosts("blog-posts", currentSlug, category, limit);
+}
+
+export async function getRelatedNewsPosts(
+  currentSlug: string,
+  category?: string,
+  limit = 3,
+): Promise<ContentPost[]> {
+  return fetchRelatedPosts("news-posts", currentSlug, category, limit);
 }
 
 async function fetchPostsByCollection(
@@ -94,10 +133,7 @@ export async function getBlogPostBySlug(slug: string): Promise<ContentPostDetail
   const doc = result.docs[0];
   if (!doc) return null;
 
-  return {
-    ...mapPost(doc),
-    body: doc.body ?? null,
-  };
+  return mapPostDetail(doc);
 }
 
 export async function getNewsPosts(): Promise<ContentPost[]> {
@@ -122,10 +158,7 @@ export async function getNewsPostBySlug(slug: string): Promise<ContentPostDetail
   const doc = result.docs[0];
   if (!doc) return null;
 
-  return {
-    ...mapPost(doc),
-    body: doc.body ?? null,
-  };
+  return mapPostDetail(doc);
 }
 
 export async function getBlogSlugs(): Promise<string[]> {
@@ -154,10 +187,6 @@ export async function getNewsSlugs(): Promise<string[]> {
   return result.docs.map((doc) => doc.slug);
 }
 
-export function urlForImage(source: Media | number | string | null | undefined): string | null {
-  if (!source || typeof source === "number" || typeof source === "string") return null;
-  return source.url ?? null;
-}
 
 function mapTestimony(doc: Testimony): Testimonial {
   return {
@@ -209,4 +238,5 @@ export async function getPartnerLogos(): Promise<PartnerLogo[]> {
   return partners.length > 0 ? partners : fallbackPartnerLogos;
 }
 
-export type { PartnerLogo, Testimonial };
+export type { ContentPost, ContentPostDetail, PartnerLogo, Testimonial };
+export { urlForImage };

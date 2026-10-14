@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 
-import { PageHero } from "@/components/sections/page-hero";
 import { ContentListing } from "@/components/sections/content-listing";
+import { PageHero } from "@/components/sections/page-hero";
 import { cmsConfigured, getNewsPosts } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "اخبار",
   description: "اخبار شرکت، اعلامیه‌ها و به‌روزرسانی‌های RavinSec.",
+  alternates: { canonical: "/news" },
 };
 
 export const revalidate = 3600;
@@ -26,6 +27,7 @@ export default async function NewsPage() {
         <ContentListing
           posts={posts}
           basePath="/news"
+          showFeatured={false}
           emptyMessage={
             cmsConfigured
               ? "هنوز خبری منتشر نشده. محتوا را در Payload منتشر کنید تا اینجا نمایش داده شود."
