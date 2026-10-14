@@ -9,7 +9,7 @@ import { TestimoniesSection } from "@/components/sections/testimonies-section";
 import { AboutUsSection } from "@/components/sections/about-us-section";
 import { getLatestBlogPosts, getLatestNewsPosts, getPartnerLogos, getTestimonies } from "@/lib/cms";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const [articles, news, testimonies, partners] = await Promise.all([

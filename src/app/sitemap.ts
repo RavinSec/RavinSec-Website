@@ -3,6 +3,8 @@ import type { MetadataRoute } from "next";
 import { getCatalogSlugs } from "@/lib/catalogs";
 import { getBlogSlugs, getNewsSlugs } from "@/lib/cms";
 
+export const dynamic = "force-dynamic";
+
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 const staticRoutes = [

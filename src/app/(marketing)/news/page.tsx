@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/news" },
 };
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export default async function NewsPage() {
   const posts = await getNewsPosts();
