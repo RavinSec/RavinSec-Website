@@ -61,6 +61,14 @@
     @apply py-16 sm:py-20 lg:py-28;
   }
 
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .surface-muted {
     @apply border-y border-border bg-muted/50;
   }

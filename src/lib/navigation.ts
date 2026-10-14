@@ -44,6 +44,10 @@ export const mainNav: NavGroup[] = [
     href: "/products",
   },
   {
+    label: "کاتالوگ‌ها",
+    href: "/catalogs",
+  },
+  {
     label: "وبلاگ امنیتی",
     href: "/blog",
   },
@@ -52,10 +56,14 @@ export const mainNav: NavGroup[] = [
 ];
 
 export const footerNav = {
-  products: [{ href: "/products", label: "همه محصولات" }],
+  products: [
+    { href: "/products", label: "همه محصولات" },
+    { href: "/catalogs", label: "کاتالوگ محصولات" },
+  ],
   services: [{ href: "/services", label: "همه خدمات" }],
   company: [
     { href: "/about", label: "درباره ما" },
+    { href: "/catalogs", label: "کاتالوگ محصولات" },
     { href: "/blog", label: "وبلاگ امنیتی" },
     { href: "/#testimonies", label: "نظرات مشتریان" },
     { href: "/contact", label: "تماس با ما" },

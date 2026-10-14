@@ -1,19 +1,28 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Vazirmatn } from "next/font/google";
+import localFont from "next/font/local";
+import { Vazirmatn } from "next/font/google";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 
 import "../globals.css";
 
+const geistSans = localFont({
+  src: "../fonts/GeistVariable.woff2",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+
+const geistMono = localFont({
+  src: "../fonts/GeistMonoVariable.woff2",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+  adjustFontFallback: false,
+});
+
 const vazirmatn = Vazirmatn({
   variable: "--font-vazirmatn",
   subsets: ["arabic"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -34,7 +43,9 @@ export const metadata: Metadata = {
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fa" dir="rtl">
-      <body className={`${vazirmatn.variable} ${geistMono.variable} min-h-screen font-sans`}>
+      <body
+        className={`${vazirmatn.variable} ${geistSans.variable} ${geistMono.variable} min-h-screen font-sans`}
+      >
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />

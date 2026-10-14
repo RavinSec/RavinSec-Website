@@ -71,7 +71,7 @@ export function AboutUsSection() {
   const reducedMotion = useReducedMotionPreferred();
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
+    <section id="about" className="mx-auto max-w-6xl px-4 py-16">
       <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
         <motion.div {...slideInViewProps(reducedMotion)}>
           <SectionHeader

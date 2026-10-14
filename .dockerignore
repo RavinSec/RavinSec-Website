@@ -2,6 +2,11 @@
 node_modules
 .pnpm-store
 
+# Written by local pnpm 10+ for build-script approvals. The image uses pnpm 9,
+# which treats any pnpm-workspace.yaml as a workspace and fails `pnpm build`
+# when the `packages` field is missing. This app is a single package.
+pnpm-workspace.yaml
+
 # next.js
 .next
 out

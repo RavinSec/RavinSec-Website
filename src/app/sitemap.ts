@@ -1,10 +1,20 @@
 import type { MetadataRoute } from "next";
 
+import { getCatalogSlugs } from "@/lib/catalogs";
 import { getBlogSlugs, getNewsSlugs } from "@/lib/cms";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
-const staticRoutes = ["", "/services", "/products", "/about", "/blog", "/news", "/contact"];
+const staticRoutes = [
+  "",
+  "/services",
+  "/products",
+  "/catalogs",
+  "/about",
+  "/blog",
+  "/news",
+  "/contact",
+];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [blogSlugs, newsSlugs] = await Promise.all([getBlogSlugs(), getNewsSlugs()]);
@@ -30,5 +40,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticEntries, ...blogEntries, ...newsEntries];
+  const catalogEntries: MetadataRoute.Sitemap = getCatalogSlugs().map((slug) => ({
+    url: `${siteUrl}/catalogs/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...catalogEntries, ...blogEntries, ...newsEntries];
 }

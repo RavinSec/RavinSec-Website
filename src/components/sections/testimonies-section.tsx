@@ -45,7 +45,7 @@ export function TestimoniesSection({ testimonies }: TestimoniesSectionProps) {
   const secondary = testimonies.filter((t) => t.id !== featured.id);
 
   return (
-    <section className="relative bg-slate-900 py-24 text-slate-100">
+    <section id="testimonies" className="relative bg-slate-900 py-24 text-slate-100">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.10),transparent_60%)]" />
 
       <div className="relative mx-auto max-w-6xl px-6">
