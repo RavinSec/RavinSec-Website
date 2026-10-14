@@ -12,7 +12,7 @@ export type NavGroup = {
 };
 
 export const siteContact = {
-  email: "contact@ravinsec.com",
+  email: "contact@ravinsec.ir",
   phone: "09120241686",
 };
 
@@ -51,7 +51,6 @@ export const mainNav: NavGroup[] = [
     label: "وبلاگ امنیتی",
     href: "/blog",
   },
-  { label: "نظرات مشتریان", href: "/#testimonies" },
   { label: "درباره ما", href: "/#about" },
 ];
 
@@ -65,7 +64,6 @@ export const footerNav = {
     { href: "/about", label: "درباره ما" },
     { href: "/catalogs", label: "کاتالوگ محصولات" },
     { href: "/blog", label: "وبلاگ امنیتی" },
-    { href: "/#testimonies", label: "نظرات مشتریان" },
     { href: "/contact", label: "تماس با ما" },
   ],
 };
